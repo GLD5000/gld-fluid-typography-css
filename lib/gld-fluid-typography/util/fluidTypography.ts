@@ -11,7 +11,13 @@ export function getFluidTypographyInternalCss(
   breakpoints = [480, 768, 1200],
   screenMinMax = [320, 1920],
   baseFontSize = 16
-) {}
+) {
+  const breakpointMinMax = getBreakpointMinMax(breakpoints, screenMinMax);
+  const breakpointCssValues = breakpointMinMax.map((minMax) => {
+    const [min, max] = minMax;
+    return getBreakpointCssValue(min, max, baseFontSize);
+  });
+}
 /**
  * Maps min and max screen sizes for given breakpoints and overall maximum / minimum
  */
@@ -68,9 +74,6 @@ export function getBreakpointCssValue(
     breakpointMaximum,
     baseFontSize
   );
-  // .text-\[min\(1\.5rem\2c max\(1rem\2c 5vw\)\)\] {
-  // font-size: min(1.5rem /* 24px */,max(1rem /* 16px */,5vw)) !important;
-  // }
   return `min(${fontMaxRem}rem /* ${remToPixels(
     fontMaxRem
   )}px */,max(${pixelsToRem(
@@ -80,6 +83,47 @@ export function getBreakpointCssValue(
     breakpointMinimum
   )}vw))`;
 }
+/**
+ * Returns the CSS declaration with media query as needed
+ */
+export function getBreakpointCssDeclarations(
+  breakpointMinMax: number[][],
+  breakpointCssValues: string[],
+  uniqueClassName = "gld-fluid-typo-wrapper"
+) {
+  const declarations = breakpointMinMax.map((minMax, index) =>
+    getBreakpointCssDeclaration(
+      minMax[0],
+      index,
+      uniqueClassName,
+      breakpointCssValues[index]
+    )
+  );
+  return declarations.join("\n");
+}
+export function getBreakpointCssDeclaration(
+  min: number,
+  index: number,
+  breakpointCssValue: string,
+  uniqueClassName: string = "gld-fluid-typo-wrapper"
+) {
+  const declaration = `.${uniqueClassName} { font-size: ${breakpointCssValue} !important; }`;
+  return index === 0 ? declaration : wrapInMediaQuery(declaration, min);
+}
+
+/**
+ * Wraps a declaration string in a min-width media query for a specified min
+ */
+function wrapInMediaQuery(declaration, min) {
+  return `@media (min-width: ${min}px) { ${declaration} }`;
+}
+
+// @media (min-width: 480px) {
+// .phablet\:text-\[min\(1\.6rem\2c max\(1rem\2c 3\.33vw\)\)\] {
+// font-size: min(1.6rem /* 25.6px */,max(1rem /* 16px */,3.33vw)) !important;
+// }
+// }
+
 /**
  * Converts rem to pixels to 1 d.p
  */

@@ -1,8 +1,31 @@
 {
-  "name": "gld-fluid-typography-css",
+  "name": "@gld5000-ui/fluid-typography",
+  "version": "1.0.0",
   "private": true,
-  "version": "0.0.0",
+  "description": "Returns CSS, JSX or HTML to allow interior, inline, or Tailwind styling of a fluid typography wrapper.",
+  "keywords": [
+    "Fluid",
+    "Typography",
+    "Font",
+    "Text",
+    "CSS",
+    "Taliwind",
+    "HTML",
+    "JSX",
+    "TSX"
+  ],
+  "homepage": "https://github.com/GLD5000/gld-fluid-typography-css#readme",
+  "bugs": {
+    "url": "https://github.com/GLD5000/gld-fluid-typography-css/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GLD5000/gld-fluid-typography-css.git"
+  },
+  "license": "MIT",
+  "author": "GLD5000",
   "type": "module",
+  "main": "dist/index.js",
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",

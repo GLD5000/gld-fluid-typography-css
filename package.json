@@ -27,6 +27,7 @@
   "type": "module",
   "main": "dist/index.js",
   "scripts": {
+    "test": "vitest",
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",

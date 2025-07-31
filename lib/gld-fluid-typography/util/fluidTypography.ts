@@ -1,17 +1,28 @@
-/** Breakpoint minimums will equal 1rem / 16px
+export type FluidTypographySettingsType = {
+  breakpoints: number[];
+  screenMinMax: number[];
+  baseFontSize: number;
+};
+
+export const defaultFluidTypographySettings = {
+  breakpoints: [480, 768, 1200],
+  screenMinMax: [320, 1920],
+  baseFontSize: 16,
+};
+
+/** 
  * Fonts scale linearly to breakpoint maximums
- * Default base font size is
- * Default Min width is 320px
- * Default Max width is 1920px
- * Default breakpoints are 480px, 768px, 1200px
- * Default scales are 1.5x, 1.5625x, 1.6x
- * Default max font-sizes are 24px, 25px, 25.6px
+ * @default min width is 320px
+ * @default max width is 1920px
+ * @default base font size is 16px
+ * @default max font-sizes are 24px, 25px, 25.6px
+ * @default breakpoints are 480px, 768px, 1200px
+ * @default scales are 1.5x, 1.5625x, 1.6x
  */
 export function getFluidTypographyInternalCss(
-  breakpoints = [480, 768, 1200],
-  screenMinMax = [320, 1920],
-  baseFontSize = 16
+  fluidTypographySettings = defaultFluidTypographySettings
 ) {
+  const { breakpoints, screenMinMax, baseFontSize } = fluidTypographySettings;
   const breakpointMinMax = getBreakpointMinMax(breakpoints, screenMinMax);
   const breakpointCssValues = breakpointMinMax.map((minMax) => {
     const [min, max] = minMax;
@@ -114,7 +125,7 @@ export function getBreakpointCssDeclaration(
 /**
  * Wraps a declaration string in a min-width media query for a specified min
  */
-function wrapInMediaQuery(declaration, min) {
+function wrapInMediaQuery(declaration: string, min: number) {
   return `@media (min-width: ${min}px) { ${declaration} }`;
 }
 
@@ -127,12 +138,12 @@ function wrapInMediaQuery(declaration, min) {
 /**
  * Converts rem to pixels to 1 d.p
  */
-function remToPixels(rem) {
+function remToPixels(rem: number) {
   return roundToDecimal(rem * 16, 1);
 }
 /**
  * Converts pixels to rem to 4 d.p
  */
-function pixelsToRem(rem) {
+function pixelsToRem(rem: number) {
   return roundToDecimal(rem / 16, 4);
 }

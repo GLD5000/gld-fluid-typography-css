@@ -9,7 +9,7 @@ function App() {
 
   return (
     <>
-      <BannerSectionWrapper data-sfid="test-sfide"/>
+      <BannerSectionWrapper data-sfid="test-sfid"/>
       <div>
         <a href="https://vite.dev" target="_blank">
           <img src={viteLogo} className="logo" alt="Vite logo" />
